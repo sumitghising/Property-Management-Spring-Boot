@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PropertyService {
@@ -40,8 +41,8 @@ public class PropertyService {
     }
     public String deleteProperty(DeletePropertyDTO dto){
         Long managerId = verifyTokenAndGetId(dto.getToken());
-        Property property = this.propertyRepository.findByIdAndManagerId(dto.getPropertyId(), managerId);
-        if(managerId == null || property == null){
+        Property property = this.propertyRepository.findByIdAndManagerId(dto.getPropertyId(), managerId).orElseThrow(IllegalArgumentException::new);
+        if(managerId == null){
             throw new IllegalArgumentException();
         }
         this.propertyRepository.deleteById(property.getId());
@@ -50,9 +51,9 @@ public class PropertyService {
 
     public Property updateProperty(UpdatePropertyDTO dto){
         Long managerId = verifyTokenAndGetId(dto.getToken());
-        Property property = this.propertyRepository.findByIdAndManagerId(dto.getPropertyId(), managerId);
+        Property property = this.propertyRepository.findByIdAndManagerId(dto.getPropertyId(), managerId).orElseThrow(IllegalArgumentException::new);
 
-        if(managerId == null || property == null){
+        if(managerId == null){
             throw new IllegalArgumentException();
         }
         property.setCity(dto.getCity());

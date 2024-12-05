@@ -22,10 +22,7 @@ public class ManagerService {
     }
 
     public String login(ManagerDTO manager){
-       Manager loggedManager =  managerRepository.findByEmailAndPassword(manager.getEmail(), manager.getPassword());
-       if(loggedManager == null){
-           throw new IllegalArgumentException("Invalid email or password");
-       }
+       Manager loggedManager =  managerRepository.findByEmailAndPassword(manager.getEmail(), manager.getPassword()).orElseThrow(()-> new IllegalArgumentException("Invalid email or password"));
         String token = randomStringGenerator();
         loggedInUsers.put(token, loggedManager.getId());
         System.out.println(loggedInUsers);
