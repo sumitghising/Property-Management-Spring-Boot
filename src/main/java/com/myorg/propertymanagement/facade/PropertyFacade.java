@@ -4,7 +4,7 @@ import com.myorg.propertymanagement.dto.CreatePropertyDTO;
 import com.myorg.propertymanagement.dto.DeletePropertyDTO;
 import com.myorg.propertymanagement.dto.UpdatePropertyDTO;
 import com.myorg.propertymanagement.model.Property;
-import com.myorg.propertymanagement.service.PropertyService;
+import com.myorg.propertymanagement.service.PropertyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ import java.util.Map;
 public class PropertyFacade {
 
     @Autowired
-    private PropertyService propertyService;
+    private PropertyServiceImpl propertyServiceImpl;
 
     public ResponseEntity<Object> handleAddProperty(CreatePropertyDTO body) {
         Map<String, Object> response = new HashMap<>();
         try {
-            Property newProperty = propertyService.addProperty(body);
+            Property newProperty = propertyServiceImpl.addProperty(body);
             response.put("message", "Property Added Successfully");
             response.put("success", true);
             response.put("property", newProperty);
@@ -38,7 +38,7 @@ public class PropertyFacade {
     public ResponseEntity<Object> handleDeleteProperty(DeletePropertyDTO body) {
         Map<String, Object> response = new HashMap<>();
         try {
-            response.put("message", propertyService.deleteProperty(body));
+            response.put("message", propertyServiceImpl.deleteProperty(body));
             response.put("success", true);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
@@ -53,7 +53,7 @@ public class PropertyFacade {
         try {
             response.put("message", "Property Updated Successfully");
             response.put("success", true);
-            response.put("property", propertyService.updateProperty(body));
+            response.put("property", propertyServiceImpl.updateProperty(body));
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             response.put("success", false);
@@ -66,7 +66,7 @@ public class PropertyFacade {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("success", true);
-            response.put("propertiesYouManage", propertyService.listProperties(token));
+            response.put("propertiesYouManage", propertyServiceImpl.listProperties(token));
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             response.put("success", false);

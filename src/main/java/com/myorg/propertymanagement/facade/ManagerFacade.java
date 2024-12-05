@@ -3,6 +3,7 @@ package com.myorg.propertymanagement.facade;
 import com.myorg.propertymanagement.dto.ManagerDTO;
 import com.myorg.propertymanagement.model.Manager;
 import com.myorg.propertymanagement.service.ManagerService;
+import com.myorg.propertymanagement.service.ManagerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -16,12 +17,12 @@ import java.util.Map;
 public class ManagerFacade {
 
     @Autowired
-    ManagerService managerService;
+    ManagerServiceImpl managerServiceImpl;
 
     public ResponseEntity<Object> handleSignup(ManagerDTO body) {
         Map<String, Object> response = new HashMap<>();
         try {
-            Manager newManager = managerService.createManager(body);
+            Manager newManager = managerServiceImpl.createManager(body);
             response.put("message", "Manager Added Successfully");
             response.put("data", newManager);
             response.put("success", true);
@@ -36,7 +37,7 @@ public class ManagerFacade {
     public ResponseEntity<Object> handleLogin(ManagerDTO body) {
         Map<String, Object> response = new HashMap<>();
         try {
-            String token = managerService.login(body);
+            String token = managerServiceImpl.login(body);
             response.put("token", token);
             response.put("message", "Login Successful");
             response.put("success", true);
