@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+<changeSet id="1" author="Suresh">
+        <createTable tableName="manager">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="Suresh">
+        <createTable tableName="property">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="street" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="manager_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+<!--    foreign key-->
+    <changeSet id="3" author="Suresh">
+        <addForeignKeyConstraint
+                constraintName="fk_manager"
+                baseTableName="property"
+                baseColumnNames="manager_id"
+                referencedTableName="manager"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="4" author="Suresh">
+        <createIndex indexName="idx_property_manager_id" tableName="property">
+            <column name="manager_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
