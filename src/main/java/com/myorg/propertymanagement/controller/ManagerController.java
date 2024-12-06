@@ -11,15 +11,15 @@
     import org.springframework.web.bind.annotation.RestController;
 
     @RestController
-    @RequestMapping("managers")
+    @RequestMapping("api/v1/managers")
     public class ManagerController {
 
         @Autowired
         ManagerFacade managerFacade;
 
         @PostMapping("/")
-        public ResponseEntity<Object> signup(@RequestBody ManagerDTO body) {
-            return managerFacade.handleSignup(body);
+        public ResponseEntity<ManagerDTO> signup(@RequestBody ManagerDTO body) {
+            return new ResponseEntity(managerFacade.handleSignup(body),HttpStatus.OK);
         }
 
         @PostMapping("/auth")
